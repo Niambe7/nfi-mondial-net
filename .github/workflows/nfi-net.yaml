@@ -1,8 +1,9 @@
-name: Déployze notre webapp sue azure
+name: Déployer notre webapp sue azure
 
 on:
   push:
-    branches: main
+    branches: 
+      - main
 
 permissions:
   contents: read
@@ -11,27 +12,26 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: 'Checkout de GitHub Action'
+      uses: actions/checkout@v3
     
-name: 'Checkout de GitHub Action'
-    uses: actions/checkout@v3
+    - name: 'Set up Node.js'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.x
+        cache: 'npm'
     
-name: 'Set up Node.js'
-    uses: actions/setup-node@v3
-    with:
-      node-version: 20.x
-      cache: 'npm'
+    - name: 'Installation des dépendances'
+      run: |
+        npm install
     
-name: 'Installation des dépendances'
-    run: |
-      npm install
+    - name: 'Build 'app'
+      run: |
+        npm run build
     
-name: 'Build 'app'
-    run: |
-      npm run build
-    
-name: 'Déployer sur Azure Web App'
-    uses: azure/webapps-deploy@v2
-    with:
-      app-name: 'nfi-mondial-net'
-      slot-name: 'production'
-      publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+    - name: 'Déployer sur Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'nfi-mondial-net'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
