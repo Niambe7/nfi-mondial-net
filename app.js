@@ -26,12 +26,13 @@ app.use("/medias", mediaRoutes);
 app.use("/commentaires", commentaireRoutes);
 app.use("/notifications", notificationRoutes);
 
+app
 // Lancement du serveur avec synchronisation de la base de données
 (async () => {
   try {
     await synchronizeDatabase(); // Synchronisation des tables
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Server running on https://nfi-mondial-net-guhdd8fhcxgxh7gz.northeurope-01.azurewebsites.net`);
     });
   } catch (error) {
     console.error("Erreur au démarrage de l'application :", error);
