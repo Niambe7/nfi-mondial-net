@@ -47,3 +47,26 @@ sequelize.authenticate()
   .catch((error) => {
     console.error("Erreur de connexion à la base de données :", error);
   });
+
+  app.use((err, req, res, next) => {
+    console.error("Erreur détectée :", err.message);
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: "Une erreur interne s'est produite.",
+        message: err.message,
+      });
+    } else {
+      next(err);
+    }
+  });
+  
+  app.use((req, res, next) => {
+    console.log(`Requête entrante : ${req.method} ${req.url}`);
+    next();
+  });
+  
+
+  app.get("/", (req, res) => {
+    res.send("L'application fonctionne !");
+  });
+  

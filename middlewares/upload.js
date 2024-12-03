@@ -33,7 +33,6 @@
 
 // module.exports = upload;
 
-
 const multer = require("multer");
 const { uploadFileToAzure } = require("../services/azureBlobService"); // Import du service Azure
 
@@ -55,19 +54,23 @@ const upload = multer({
 // Middleware pour gérer le téléchargement et l'upload vers Azure Blob Storage
 const uploadToAzure = async (req, res, next) => {
   try {
+    // Vérifie si un fichier a été uploadé
     if (!req.file) {
       return res.status(400).json({ message: "Aucun fichier téléchargé" });
     }
 
-    // Téléchargement vers Azure Blob Storage
+    // Télécharge le fichier sur Azure Blob Storage
     const fileUrl = await uploadFileToAzure(req.file);
 
     // Ajoute l'URL du fichier à `req` pour qu'il soit accessible dans les contrôleurs
     req.fileUrl = fileUrl;
 
-    next(); // Passe au middleware suivant ou au contrôleur
+    // Passe au middleware suivant ou au contrôleur
+    next();
   } catch (error) {
-    return res.status(500).json({ error: "Erreur lors du téléchargement sur Azure" });
+    console.error("Erreur lors de l'upload vers Azure :", error);
+    // Passe l'erreur au middleware global de gestion des erreurs
+    next(error);
   }
 };
 
