@@ -7,3 +7,4 @@ const router = express.Router();
 // router.post("/upload", mediaController.uploadMedia);
 
 module.exports = router;
+//ok
