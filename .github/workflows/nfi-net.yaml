@@ -1,4 +1,4 @@
-name: Deploy to Azure Web App
+name: Deploiement sur azure web-app
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: 'Install Dependencies'
+    - name: 'Installation des Dépendences'
       run: |
         npm install
 
@@ -32,10 +32,10 @@ jobs:
       run: |
         npm run build
 
-    - name: 'Deploy to Azure Web App'
+    - name: 'Deploiement sur azure Web-APP'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'moandtowebapp' 
+        app-name: 'nfi-mondial-net' 
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
     - name: Cache dependencies
